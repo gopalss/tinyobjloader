@@ -151,7 +151,12 @@ static std::string GetBaseDir(const std::string& filepath) {
 
 static bool FileExists(const std::string& abs_filename) {
   bool ret;
-  FILE* fp = fopen(abs_filename.c_str(), "rb");
+	FILE* fp;
+#ifdef _WIN32
+	fopen_s(&fp, abs_filename.c_str(), "rb");
+#else
+	fp = fopen(abs_filename.c_str(), "rb");
+#endif
   if (fp) {
     ret = true;
     fclose(fp);
